@@ -1,6 +1,6 @@
 {
     "name": "regular-listener",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "RegularListener is a listener that detects the value periodically.",
     "main": "./build/index.js",
     "types": "./build/index.d.ts",
@@ -26,9 +26,9 @@
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/SNinjo/jo-fetch/issues"
+        "url": "https://github.com/SNinjo/regular-listener/issues"
     },
-    "homepage": "https://github.com/SNinjo/jo-fetch#readme",
+    "homepage": "https://github.com/SNinjo/regular-listener#readme",
     "files": [
         "build/",
         "README.md",

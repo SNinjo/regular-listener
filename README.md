@@ -1,4 +1,4 @@
-# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.1-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
+# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.3-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
 RegularListener is a listener that detects the value periodically.
 
 This listener can periodically detects any event without having to handle complicated settings.
