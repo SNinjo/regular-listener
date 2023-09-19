@@ -1,4 +1,4 @@
-# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.4-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
+# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.5-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
 RegularListener is a listener that detects the value periodically.
 
 This listener can periodically detects any event without having to handle complicated settings.
@@ -7,28 +7,55 @@ Of course, all listeners are successfully tested by Jest.
 
 
 ## Usage
-#### listen boolean once
+#### listen to boolean once
 ``` javascript
 import BooleanListener from 'regular-listener';
 
-let bool = false;
+let boolean = false;
 ...
 const listener = new BooleanListener(() => {
 	console.log('The value is true!');
 })
-listener.listenOnce(() => bool);
+listener.listenOnce(() => boolean);
 ```
 
-#### listen boolean every 500ms
+#### listen to boolean every 500ms
 ``` javascript
 import BooleanListener from 'regular-listener';
 
-let bool = false;
+let boolean = false;
 ...
 const listener = new BooleanListener(() => {
 	console.log('The value is true!');
 })
-listener.listen(() => bool, 500);
+listener.setDelay(500);
+listener.listen(() => boolean);
+```
+
+#### listen to each element in the array and check that at least one element satisfies the condition
+``` javascript
+import BooleanListener from 'regular-listener';
+
+let array = [true, true];
+...
+const listener = new BooleanListener(() => {
+	console.log('All Elements are true!');
+})
+listener.setReadTypeOfArray('some');
+listener.listen(() => array);
+```
+
+#### listen to each element in the array and check that every element satisfies the condition
+``` javascript
+import BooleanListener from 'regular-listener';
+
+let array = [true, true];
+...
+const listener = new BooleanListener(() => {
+	console.log('All Elements are true!');
+})
+listener.setReadTypeOfArray('every');
+listener.listen(() => array);
 ```
 
 #### handle error
@@ -66,9 +93,10 @@ npm install regular-listener
 
 ## API
 #### class RegularListener\<T>
-| method	          	| Return Type | Description                                      |
-| --------------------- | ----------- | ------------------------------------------------ |
-| isTriggered(value: T) | boolean     | Define whether the value triggers the condition. |
+| method	          				   | Return Type | Description                            										        |
+| ------------------------------------ | ----------- | ------------------------------------------------------------------------------------ |
+| isTriggered(value: T) 			   | boolean     | Define whether the value triggers the condition. 									|
+| isTriggered(value: T, index: number) | boolean     | Define whether the value of the <index> element in the array triggers the condition. |
 
 #### Listener
 | name		          	| Description                                               |

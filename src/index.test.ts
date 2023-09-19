@@ -3,7 +3,7 @@ import RegularListener, { BooleanListener, ValueExistedListener, ValueUpdatedLis
 
 
 
-let listener: RegularListener<unknown>;
+let listener: RegularListener;
 beforeEach(() => {
 	jest.useFakeTimers();
 })
@@ -15,14 +15,14 @@ afterEach(() => {
 
 
 describe('test class RegularListener', () => {
-	class NullListener<T> extends RegularListener<T> {
-		protected isTriggered(value: T): boolean {
+	class NullListener extends RegularListener {
+		protected isTriggered(value: unknown): boolean {
 			return (value === null);
 		}
 	}
 
 	
-	test("no callback", () => {
+	test('no callback', () => {
 		const mockListening = jest.fn();
 		let value: undefined | null = undefined;
 		listener = new NullListener();
@@ -81,7 +81,8 @@ describe('test class RegularListener', () => {
 			listener = new NullListener(mockCallback);
 			expect(mockCallback).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
-			listener.listen(() => { mockListening(); return value }, 10000);
+			listener.setDelay(10000);
+			listener.listen(() => { mockListening(); return value });
 	
 			expect(mockCallback).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
@@ -140,7 +141,8 @@ describe('test class RegularListener', () => {
 			listener = new NullListener(mockCallback);
 			expect(mockCallback).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
-			listener.listenOnce(() => { mockListening(); return value }, 10000);
+			listener.setDelay(10000);
+			listener.listenOnce(() => { mockListening(); return value });
 
 			expect(mockCallback).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
@@ -207,6 +209,93 @@ describe('test class RegularListener', () => {
 			expect(isResolved).toBe(true);
 		})
 	})
+
+
+	describe('read type of array', () => {
+		test(`='array'`, () => {
+			const mockCallback = jest.fn();
+			let value: undefined | null = undefined;
+			listener = new NullListener(mockCallback);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listenOnce(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = null;
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+		})
+		test(`='some'`, () => {
+			const mockCallback = jest.fn();
+			let value: Array<unknown> = [0];
+			listener = new NullListener(mockCallback);
+			listener.setReadTypeOfArray('some');
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listen(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = [null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [0, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(2);
+
+			value = [null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(4);
+		})
+		test(`='every'`, () => {
+			const mockCallback = jest.fn();
+			let value: Array<unknown> = [0];
+			listener = new NullListener(mockCallback);
+			listener.setReadTypeOfArray('every');
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listen(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = [null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [0, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(2);
+		})
+		test(`catch errors when the value isn't array`, async () => {
+			let value: unknown = null;
+			listener = new NullListener(() => {});
+
+			listener.setReadTypeOfArray('some');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`The value isn't an array, please set readTypeOfArray to "array".`));
+			
+			listener.setReadTypeOfArray('every');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`The value isn't an array, please set readTypeOfArray to "array".`));
+
+
+			value = [];
+			listener.setReadTypeOfArray('some');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`There are no value in the array, please add at least one value for listener.`));
+			
+			listener.setReadTypeOfArray('every');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`There are no value in the array, please add at least one value for listener.`));
+		})
+	})
 	
 	
 	describe('error handling', () => {
@@ -250,7 +339,7 @@ describe('test class RegularListener', () => {
 			})
 		})
 		
-		describe('catch error via onError', () => {
+		describe('catch errors via onError', () => {
 			test('listen value', async () => {
 				const mockCallback = jest.fn();
 				const mockListening = jest.fn();
@@ -377,7 +466,7 @@ describe('test class ValueExistedListener', () => {
 
 
 describe('test class ValueUpdatedListener', () => {
-	test("value isn't updated", () => {
+	test(`value isn't updated`, () => {
 		const mockCallback = jest.fn();
 		const value = 0;
 		listener = new ValueUpdatedListener(mockCallback);
@@ -407,7 +496,7 @@ describe('test class ValueUpdatedListener', () => {
 			const mockCallback = jest.fn();
 			let value = 0;
 			listener = new ValueUpdatedListener(mockCallback);
-			(listener as ValueUpdatedListener<number>).setInitialValue(0);
+			(listener as ValueUpdatedListener).setInitialValue(0);
 			listener.listenOnce(() => value);
 	
 			expect(mockCallback).toBeCalledTimes(0);
@@ -423,11 +512,92 @@ describe('test class ValueUpdatedListener', () => {
 			const mockCallback = jest.fn();
 			let value = 1;
 			listener = new ValueUpdatedListener(mockCallback);
-			(listener as ValueUpdatedListener<number>).setInitialValue(0);
+			(listener as ValueUpdatedListener).setInitialValue(0);
 			
 			expect(mockCallback).toBeCalledTimes(0);
 			listener.listenOnce(() => value);
 			expect(mockCallback).toBeCalledTimes(1);
+		})
+	})
+
+	describe('read type of array', () => {
+		test(`='array'`, () => {
+			const mockCallback = jest.fn();
+			let value: undefined | null = undefined;
+			listener = new ValueUpdatedListener(mockCallback);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listenOnce(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = null;
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+		})
+		test(`='some'`, () => {
+			const mockCallback = jest.fn();
+			let value: Array<unknown> = [0, 0];
+			listener = new ValueUpdatedListener(mockCallback);
+			listener.setReadTypeOfArray('some');
+			(listener as ValueUpdatedListener).setInitialValue([0, 0]);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listen(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = [0, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(2);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
+		})
+		test(`='every'`, () => {
+			const mockCallback = jest.fn();
+			let value: Array<unknown> = [0, 0];
+			listener = new ValueUpdatedListener(mockCallback);
+			listener.setReadTypeOfArray('every');
+			(listener as ValueUpdatedListener).setInitialValue([0, 0]);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			listener.listen(() => value);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = [0, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(0);
+
+			value = [null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+		})
+		test(`catch errors when the value isn't array`, async () => {
+			let value: Array<unknown> = [null, null];
+			listener = new ValueUpdatedListener(() => {});
+			(listener as ValueUpdatedListener).setInitialValue(null);
+
+			listener.setReadTypeOfArray('some');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`The last value isn't an array, please set initial value to be an array or set readTypeOfArray to "array".`));
+			
+			listener.setReadTypeOfArray('every');
+			await expect(listener.listen(() => value)).rejects.toThrow(new Error(`The last value isn't an array, please set initial value to be an array or set readTypeOfArray to "array".`));
 		})
 	})
 })
