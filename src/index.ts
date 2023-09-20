@@ -1,19 +1,27 @@
+type hookOnTrigger = (value: unknown) => unknown | Promise<unknown>;
+type hookOnError = (error: unknown) => unknown | Promise<unknown>;
 type ReadTypeOfArray = 'array' | 'some' | 'every';
+
 export abstract class RegularListener {
 	protected delay = 1000;
-	protected intervalId: number = 0;
+	protected intervalId = 0;
 	protected readTypeOfArray: ReadTypeOfArray = 'array';
 
-	protected callback: (value: unknown) => unknown | Promise<unknown>;
-	protected onError: null | ((error: unknown) => unknown | Promise<unknown>) = null;
+	protected onTrigger: hookOnTrigger = () => {};
+	protected onError: null | hookOnError = null;
 
 
-	constructor(callback = () => {}) {
-		this.callback = callback;
+	constructor()
+	constructor(onTrigger: hookOnTrigger)
+	constructor(onTrigger?: hookOnTrigger) {
+		if (onTrigger) {
+			this.onTrigger = onTrigger;
+		}
 	}
 
 	protected abstract isTriggered(value: unknown): boolean
 	protected abstract isTriggered(value: unknown, index: number): boolean
+	protected abstract isTriggered(value: unknown, index: number, array: Array<unknown>): boolean
  
 	protected async run(getValue: () => unknown, isOnce: boolean): Promise<void> {
 		return new Promise((resolve, reject) => {
@@ -32,7 +40,7 @@ export abstract class RegularListener {
 						if (value.length === 0) throw new Error(`There are no value in the array, please add at least one value for listener.`);
 						isTriggered = (
 							value
-								.map((value, index) => this.isTriggered(value, index))
+								.map((element, index, value) => this.isTriggered(element, index, value))
 								?.[this.readTypeOfArray](boolean => boolean)
 						);
 						break;
@@ -40,7 +48,7 @@ export abstract class RegularListener {
 
 					if (isTriggered) {
 						if (isOnce) clearInterval(this.intervalId);
-						await this.callback(value);
+						await this.onTrigger(value);
 						resolve();
 					}
 				} catch (error) {
@@ -67,7 +75,7 @@ export abstract class RegularListener {
 	stop(): void {
 		clearInterval(this.intervalId);
 	}
-	catch(onError: (error: unknown) => unknown | Promise<unknown>): void {
+	catch(onError: hookOnError): void {
 		this.onError = onError;
 	}
 
@@ -94,23 +102,35 @@ export class ValueExistedListener extends RegularListener {
 }
 
 export class ValueUpdatedListener extends RegularListener {
-	private isValueInitialized: boolean = true;
+	private isValueInitialized = false;
 	private lastValue: unknown;
     
-	protected isTriggered(value: unknown, index?: number): boolean {
-		if ((index !== undefined) && !(this.lastValue instanceof Array)) throw new Error(`The last value isn't an array, please set initial value to be an array or set readTypeOfArray to "array".`);
+	protected isTriggered(value: unknown, index?: number, array?: Array<unknown>): boolean {
+		if ((index !== undefined) && (array !== undefined)) {
+			if (!this.isValueInitialized) {
+				if (index !== (array.length - 1)) {
+					return false;
+				} else {
+					this.isValueInitialized = true;
+					this.lastValue = array;
+					return false;
+				}
+			}
 
-		if (this.isValueInitialized) {
-			this.isValueInitialized = false;
-			this.lastValue = value;
-			return false;
-		}
 
-		if (index !== undefined) {
-			const isUpdated = ((this.lastValue as Array<unknown>)[index] !== value);
-			(this.lastValue as Array<unknown>)[index] = value;
+			if (!(this.lastValue instanceof Array)) throw new Error(`The last value isn't an array, please set initial value to be an array or set readTypeOfArray to "array".`);
+			if (this.lastValue.length !== array.length) return false;
+
+			const isUpdated = this.lastValue[index] !== value;
+			this.lastValue[index] = value;
 			return isUpdated;
 		} else {
+			if (!this.isValueInitialized) {
+				this.isValueInitialized = true;
+				this.lastValue = value;
+				return false;
+			}
+
 			const isUpdated = (this.lastValue !== value);
 			this.lastValue = value;
 			return isUpdated;
@@ -119,6 +139,6 @@ export class ValueUpdatedListener extends RegularListener {
 
 	setInitialValue(value: unknown) {
 		this.lastValue = value;
-		this.isValueInitialized = false;
+		this.isValueInitialized = true;
 	}
 }

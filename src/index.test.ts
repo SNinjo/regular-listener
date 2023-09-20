@@ -466,59 +466,154 @@ describe('test class ValueExistedListener', () => {
 
 
 describe('test class ValueUpdatedListener', () => {
-	test(`value isn't updated`, () => {
-		const mockCallback = jest.fn();
-		const value = 0;
-		listener = new ValueUpdatedListener(mockCallback);
-		listener.listen(() => value);
+	describe(`value isn't updated`, () => {
+		test('not array', () => {
+			const mockCallback = jest.fn();
+			const value = 0;
+			listener = new ValueUpdatedListener(mockCallback);
+			listener.listen(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
-		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+			expect(mockCallback).toBeCalledTimes(0);
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(0);
+		})
+		test('array', () => {
+			const mockCallback = jest.fn();
+			const value = [0];
+			listener = new ValueUpdatedListener(mockCallback);
+			(listener as ValueUpdatedListener).setInitialValue(value);
+			listener.listen(() => value);
+
+			expect(mockCallback).toBeCalledTimes(0);
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(0);
+		})
 	})
 	describe('value is updated', () => {
-		test('get initial value automatically', () => {
-			const mockCallback = jest.fn();
-			let value = 0;
-			listener = new ValueUpdatedListener(mockCallback);
-			listener.listenOnce(() => value);
-	
-			expect(mockCallback).toBeCalledTimes(0);
-			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+		describe('get initial value automatically', () => {
+			test('not array', () => {
+				const mockCallback = jest.fn();
+				let value = 0;
+				listener = new ValueUpdatedListener(mockCallback);
+				listener.listenOnce(() => value);
+		
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(0);
+				
+				value++;
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(1);
+			})
+			describe('array (each readTypeOfArray)', () => {
+				test(`='array'`, () => {
+					const mockCallback = jest.fn();
+					let value = [0, 0];
+					listener = new ValueUpdatedListener(mockCallback);
+					listener.listenOnce(() => value);
 			
-			value++;
-			expect(mockCallback).toBeCalledTimes(0);
-			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(0);
+					
+					value = [0, 1];
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(1);
+				})
+				test(`='some'`, () => {
+					const mockCallback = jest.fn();
+					let value = [0, 0];
+					listener = new ValueUpdatedListener(mockCallback);
+					listener.setReadTypeOfArray('some');
+					listener.listenOnce(() => value);
+			
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(0);
+					
+					value = [0, 1];
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(1);
+				})
+				test(`='every'`, () => {
+					const mockCallback = jest.fn();
+					let value = [0, 0];
+					listener = new ValueUpdatedListener(mockCallback);
+					listener.setReadTypeOfArray('every');
+					listener.listenOnce(() => value);
+			
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(0);
+					
+					value = [1, 1];
+					expect(mockCallback).toBeCalledTimes(0);
+					jest.advanceTimersByTime(1000);
+					expect(mockCallback).toBeCalledTimes(1);
+				})
+			})
 		})
-		test('get initial value manually', () => {
-			const mockCallback = jest.fn();
-			let value = 0;
-			listener = new ValueUpdatedListener(mockCallback);
-			(listener as ValueUpdatedListener).setInitialValue(0);
-			listener.listenOnce(() => value);
-	
-			expect(mockCallback).toBeCalledTimes(0);
-			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
-			
-			value++;
-			expect(mockCallback).toBeCalledTimes(0);
-			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+		describe('get initial value manually', () => {
+			test('not array', () => {
+				const mockCallback = jest.fn();
+				let value = 0;
+				listener = new ValueUpdatedListener(mockCallback);
+				(listener as ValueUpdatedListener).setInitialValue(0);
+				listener.listenOnce(() => value);
+		
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(0);
+				
+				value++;
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(1);
+			})
+			test('array', () => {
+				const mockCallback = jest.fn();
+				let value = [0, 0];
+				listener = new ValueUpdatedListener(mockCallback);
+				(listener as ValueUpdatedListener).setInitialValue(value);
+				listener.listenOnce(() => value);
+		
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(0);
+				
+				value = [0, 1];
+				expect(mockCallback).toBeCalledTimes(0);
+				jest.advanceTimersByTime(1000);
+				expect(mockCallback).toBeCalledTimes(1);
+			})
 		})
-		test('get initial value manually and trigger it right away', () => {
-			const mockCallback = jest.fn();
-			let value = 1;
-			listener = new ValueUpdatedListener(mockCallback);
-			(listener as ValueUpdatedListener).setInitialValue(0);
-			
-			expect(mockCallback).toBeCalledTimes(0);
-			listener.listenOnce(() => value);
-			expect(mockCallback).toBeCalledTimes(1);
+		describe('get initial value manually and trigger it right away', () => {
+			test('not array', () => {
+				const mockCallback = jest.fn();
+				let value = 1;
+				listener = new ValueUpdatedListener(mockCallback);
+				(listener as ValueUpdatedListener).setInitialValue(0);
+				
+				expect(mockCallback).toBeCalledTimes(0);
+				listener.listenOnce(() => value);
+				expect(mockCallback).toBeCalledTimes(1);
+			})
+			test('array', () => {
+				const mockCallback = jest.fn();
+				let value = [0, 0];
+				listener = new ValueUpdatedListener(mockCallback);
+				(listener as ValueUpdatedListener).setInitialValue([0, 0]);
+				
+				expect(mockCallback).toBeCalledTimes(0);
+				listener.listenOnce(() => value);
+				expect(mockCallback).toBeCalledTimes(1);
+			})
 		})
 	})
+
 
 	describe('read type of array', () => {
 		test(`='array'`, () => {
@@ -560,6 +655,18 @@ describe('test class ValueUpdatedListener', () => {
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
 			expect(mockCallback).toBeCalledTimes(3);
+
+			value = [null, null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
+
+			value = [0, null, null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
+
+			value = [0, null, 0, null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(3);
 		})
 		test(`='every'`, () => {
 			const mockCallback = jest.fn();
@@ -585,6 +692,18 @@ describe('test class ValueUpdatedListener', () => {
 			expect(mockCallback).toBeCalledTimes(1);
 
 			value = [null, null];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [null, null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [0, null, null, 0];
+			jest.advanceTimersByTime(1000);
+			expect(mockCallback).toBeCalledTimes(1);
+
+			value = [0, null, 0, null, 0];
 			jest.advanceTimersByTime(1000);
 			expect(mockCallback).toBeCalledTimes(1);
 		})
