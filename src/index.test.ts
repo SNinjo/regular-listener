@@ -47,120 +47,120 @@ describe('test class RegularListener', () => {
 
 	describe('listen value', () => {
 		test('every 1s', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const mockListening = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new NullListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new NullListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
 			listener.listen(() => { mockListening(); return value });
 	
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(2);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 	
 			value = null;
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(2);
+			expect(mockOnTrigger).toBeCalledTimes(2);
 			expect(mockListening).toBeCalledTimes(5);
 		})
 		test('every 10s', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const mockListening = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new NullListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new NullListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
 			listener.setDelay(10000);
 			listener.listen(() => { mockListening(); return value });
 	
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(2);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 	
 			value = null;
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(2);
+			expect(mockOnTrigger).toBeCalledTimes(2);
 			expect(mockListening).toBeCalledTimes(5);
 		})
 	})
 
 	describe('listen value once', () => {
 		test('every 1s', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const mockListening = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new NullListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new NullListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
 			listener.listenOnce(() => { mockListening(); return value });
 
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(2);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 
 			value = null;
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 		})
 		test('every 10s', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const mockListening = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new NullListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new NullListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(0);
 			listener.setDelay(10000);
 			listener.listenOnce(() => { mockListening(); return value });
 
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(1);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(2);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 
 			value = null;
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			expect(mockListening).toBeCalledTimes(3);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 			jest.advanceTimersByTime(10000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 			expect(mockListening).toBeCalledTimes(4);
 		})
 	})
@@ -213,69 +213,69 @@ describe('test class RegularListener', () => {
 
 	describe('read type of array', () => {
 		test(`='array'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new NullListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new NullListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listenOnce(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = null;
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 		})
 		test(`='some'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: Array<unknown> = [0];
-			listener = new NullListener(mockCallback);
+			listener = new NullListener(mockOnTrigger);
 			listener.setReadTypeOfArray('some');
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listen(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = [null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [0, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(2);
+			expect(mockOnTrigger).toBeCalledTimes(2);
 
 			value = [null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(4);
+			expect(mockOnTrigger).toBeCalledTimes(4);
 		})
 		test(`='every'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: Array<unknown> = [0];
-			listener = new NullListener(mockCallback);
+			listener = new NullListener(mockOnTrigger);
 			listener.setReadTypeOfArray('every');
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listen(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = [null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [0, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(2);
+			expect(mockOnTrigger).toBeCalledTimes(2);
 		})
 		test(`catch errors when the value isn't array`, async () => {
 			let value: unknown = null;
@@ -304,85 +304,85 @@ describe('test class RegularListener', () => {
 
 		describe('throw error', () => {
 			test('listen value', async () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				const mockListening = jest.fn();
-				listener = new NullListener(mockCallback);
+				listener = new NullListener(mockOnTrigger);
 
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(0);
 				await expect(listener.listen(() => { mockListening(); throw mockError; })).rejects.toThrow(mockError);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 			})
 			test('listen value once', async () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				const mockListening = jest.fn();
-				listener = new NullListener(mockCallback);
+				listener = new NullListener(mockOnTrigger);
 
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(0);
 				await expect(listener.listenOnce(() => { mockListening(); throw mockError })).rejects.toThrow(mockError);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 			})
 		})
 		
 		describe('catch errors via onError', () => {
 			test('listen value', async () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				const mockListening = jest.fn();
 				const mockOnError = jest.fn();
-				listener = new NullListener(mockCallback);
+				listener = new NullListener(mockOnTrigger);
 				listener.catch(mockOnError);
 
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(0);
 				expect(mockOnError).toBeCalledTimes(0);
 				listener.listen(() => { mockListening(); throw mockError });
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 			})
 			test('listen value once', async () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				const mockListening = jest.fn();
 				const mockOnError = jest.fn();
-				listener = new NullListener(mockCallback);
+				listener = new NullListener(mockOnTrigger);
 				listener.catch(mockOnError);
 
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(0);
 				expect(mockOnError).toBeCalledTimes(0);
 				listener.listenOnce(() => { mockListening(); throw mockError });
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				expect(mockListening).toBeCalledTimes(1);
 				expect(mockOnError).toBeCalledTimes(1);
 			})
@@ -395,29 +395,29 @@ describe('test class RegularListener', () => {
 
 describe('test class BooleanListener', () => {
 	test('value = false', () => {
-		const mockCallback = jest.fn();
+		const mockOnTrigger = jest.fn();
 		let value = false;
-		listener = new BooleanListener(mockCallback);
+		listener = new BooleanListener(mockOnTrigger);
 		listener.listen(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 	})
 	test('value = true', () => {
-		const mockCallback = jest.fn();
+		const mockOnTrigger = jest.fn();
 		let value = false;
-		listener = new BooleanListener(mockCallback);
+		listener = new BooleanListener(mockOnTrigger);
 		listener.listenOnce(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		
 		value = true;
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(1);
+		expect(mockOnTrigger).toBeCalledTimes(1);
 	})
 })
 
@@ -426,39 +426,39 @@ describe('test class BooleanListener', () => {
 
 describe('test class ValueExistedListener', () => {
 	test('value = undefined', () => {
-		const mockCallback = jest.fn();
+		const mockOnTrigger = jest.fn();
 		let value: undefined = undefined;
-		listener = new ValueExistedListener(mockCallback);
+		listener = new ValueExistedListener(mockOnTrigger);
 		listener.listen(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 	})
 	test('value = undefined', () => {
-		const mockCallback = jest.fn();
+		const mockOnTrigger = jest.fn();
 		let value: null = null;
-		listener = new ValueExistedListener(mockCallback);
+		listener = new ValueExistedListener(mockOnTrigger);
 		listener.listen(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 	})
 	test('value = 0', () => {
-		const mockCallback = jest.fn();
+		const mockOnTrigger = jest.fn();
 		let value: null | number = null;
-		listener = new ValueExistedListener(mockCallback);
+		listener = new ValueExistedListener(mockOnTrigger);
 		listener.listenOnce(() => value);
 
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		
 		value = 0;
-		expect(mockCallback).toBeCalledTimes(0);
+		expect(mockOnTrigger).toBeCalledTimes(0);
 		jest.advanceTimersByTime(1000);
-		expect(mockCallback).toBeCalledTimes(1);
+		expect(mockOnTrigger).toBeCalledTimes(1);
 	})
 })
 
@@ -468,148 +468,148 @@ describe('test class ValueExistedListener', () => {
 describe('test class ValueUpdatedListener', () => {
 	describe(`value isn't updated`, () => {
 		test('not array', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const value = 0;
-			listener = new ValueUpdatedListener(mockCallback);
+			listener = new ValueUpdatedListener(mockOnTrigger);
 			listener.listen(() => value);
 
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 		})
 		test('array', () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			const value = [0];
-			listener = new ValueUpdatedListener(mockCallback);
+			listener = new ValueUpdatedListener(mockOnTrigger);
 			(listener as ValueUpdatedListener).setInitialValue(value);
 			listener.listen(() => value);
 
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 		})
 	})
 	describe('value is updated', () => {
 		describe('get initial value automatically', () => {
 			test('not array', () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				let value = 0;
-				listener = new ValueUpdatedListener(mockCallback);
+				listener = new ValueUpdatedListener(mockOnTrigger);
 				listener.listenOnce(() => value);
 		
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				
 				value++;
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(1);
+				expect(mockOnTrigger).toBeCalledTimes(1);
 			})
 			describe('array (each readTypeOfArray)', () => {
 				test(`='array'`, () => {
-					const mockCallback = jest.fn();
+					const mockOnTrigger = jest.fn();
 					let value = [0, 0];
-					listener = new ValueUpdatedListener(mockCallback);
+					listener = new ValueUpdatedListener(mockOnTrigger);
 					listener.listenOnce(() => value);
 			
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					
 					value = [0, 1];
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(1);
+					expect(mockOnTrigger).toBeCalledTimes(1);
 				})
 				test(`='some'`, () => {
-					const mockCallback = jest.fn();
+					const mockOnTrigger = jest.fn();
 					let value = [0, 0];
-					listener = new ValueUpdatedListener(mockCallback);
+					listener = new ValueUpdatedListener(mockOnTrigger);
 					listener.setReadTypeOfArray('some');
 					listener.listenOnce(() => value);
 			
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					
 					value = [0, 1];
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(1);
+					expect(mockOnTrigger).toBeCalledTimes(1);
 				})
 				test(`='every'`, () => {
-					const mockCallback = jest.fn();
+					const mockOnTrigger = jest.fn();
 					let value = [0, 0];
-					listener = new ValueUpdatedListener(mockCallback);
+					listener = new ValueUpdatedListener(mockOnTrigger);
 					listener.setReadTypeOfArray('every');
 					listener.listenOnce(() => value);
 			
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					
 					value = [1, 1];
-					expect(mockCallback).toBeCalledTimes(0);
+					expect(mockOnTrigger).toBeCalledTimes(0);
 					jest.advanceTimersByTime(1000);
-					expect(mockCallback).toBeCalledTimes(1);
+					expect(mockOnTrigger).toBeCalledTimes(1);
 				})
 			})
 		})
 		describe('get initial value manually', () => {
 			test('not array', () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				let value = 0;
-				listener = new ValueUpdatedListener(mockCallback);
+				listener = new ValueUpdatedListener(mockOnTrigger);
 				(listener as ValueUpdatedListener).setInitialValue(0);
 				listener.listenOnce(() => value);
 		
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				
 				value++;
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(1);
+				expect(mockOnTrigger).toBeCalledTimes(1);
 			})
 			test('array', () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				let value = [0, 0];
-				listener = new ValueUpdatedListener(mockCallback);
+				listener = new ValueUpdatedListener(mockOnTrigger);
 				(listener as ValueUpdatedListener).setInitialValue(value);
 				listener.listenOnce(() => value);
 		
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				
 				value = [0, 1];
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				jest.advanceTimersByTime(1000);
-				expect(mockCallback).toBeCalledTimes(1);
+				expect(mockOnTrigger).toBeCalledTimes(1);
 			})
 		})
 		describe('get initial value manually and trigger it right away', () => {
 			test('not array', () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				let value = 1;
-				listener = new ValueUpdatedListener(mockCallback);
+				listener = new ValueUpdatedListener(mockOnTrigger);
 				(listener as ValueUpdatedListener).setInitialValue(0);
 				
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				listener.listenOnce(() => value);
-				expect(mockCallback).toBeCalledTimes(1);
+				expect(mockOnTrigger).toBeCalledTimes(1);
 			})
 			test('array', () => {
-				const mockCallback = jest.fn();
+				const mockOnTrigger = jest.fn();
 				let value = [0, 0];
-				listener = new ValueUpdatedListener(mockCallback);
+				listener = new ValueUpdatedListener(mockOnTrigger);
 				(listener as ValueUpdatedListener).setInitialValue([0, 0]);
 				
-				expect(mockCallback).toBeCalledTimes(0);
+				expect(mockOnTrigger).toBeCalledTimes(0);
 				listener.listenOnce(() => value);
-				expect(mockCallback).toBeCalledTimes(1);
+				expect(mockOnTrigger).toBeCalledTimes(1);
 			})
 		})
 	})
@@ -617,95 +617,95 @@ describe('test class ValueUpdatedListener', () => {
 
 	describe('read type of array', () => {
 		test(`='array'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: undefined | null = undefined;
-			listener = new ValueUpdatedListener(mockCallback);
-			expect(mockCallback).toBeCalledTimes(0);
+			listener = new ValueUpdatedListener(mockOnTrigger);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listenOnce(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = null;
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 		})
 		test(`='some'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: Array<unknown> = [0, 0];
-			listener = new ValueUpdatedListener(mockCallback);
+			listener = new ValueUpdatedListener(mockOnTrigger);
 			listener.setReadTypeOfArray('some');
 			(listener as ValueUpdatedListener).setInitialValue([0, 0]);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listen(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = [0, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(2);
+			expect(mockOnTrigger).toBeCalledTimes(2);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 
 			value = [null, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 
 			value = [0, null, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 
 			value = [0, null, 0, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(3);
+			expect(mockOnTrigger).toBeCalledTimes(3);
 		})
 		test(`='every'`, () => {
-			const mockCallback = jest.fn();
+			const mockOnTrigger = jest.fn();
 			let value: Array<unknown> = [0, 0];
-			listener = new ValueUpdatedListener(mockCallback);
+			listener = new ValueUpdatedListener(mockOnTrigger);
 			listener.setReadTypeOfArray('every');
 			(listener as ValueUpdatedListener).setInitialValue([0, 0]);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			listener.listen(() => value);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = [0, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(0);
+			expect(mockOnTrigger).toBeCalledTimes(0);
 
 			value = [null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, null];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [null, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [0, null, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 
 			value = [0, null, 0, null, 0];
 			jest.advanceTimersByTime(1000);
-			expect(mockCallback).toBeCalledTimes(1);
+			expect(mockOnTrigger).toBeCalledTimes(1);
 		})
 		test(`catch errors when the value isn't array`, async () => {
 			let value: Array<unknown> = [null, null];
