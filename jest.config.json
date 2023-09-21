@@ -1,13 +1,16 @@
 {
     "moduleFileExtensions": [
-      "ts",
-      "js"
+		"ts",
+		"js"
     ],
     "transform": {
-      "^.+\\.ts$": "ts-jest"
+      	"^.+\\.ts$": "ts-jest"
     },
     "testMatch": [
-      "**/src/**/*.test.ts"
+      	"<rootDir>/src/**/*.test.ts"
     ],
+	"modulePathIgnorePatterns": [
+		"<rootDir>/src/rollup/"
+	],
 	"coverageDirectory": "coverage"
 }

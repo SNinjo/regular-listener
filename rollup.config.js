@@ -1,10 +1,10 @@
-import pluginDelete from 'rollup-plugin-delete'
-import pluginTypescript from '@rollup/plugin-typescript'
-import pluginCommonjs from '@rollup/plugin-commonjs'
-import pluginNodeResolve from '@rollup/plugin-node-resolve'
-import { terser } from 'rollup-plugin-terser'
+import pluginDelete from 'rollup-plugin-delete';
+import pluginTypescript from '@rollup/plugin-typescript';
+import pluginCommonjs from '@rollup/plugin-commonjs';
+import pluginNodeResolve from '@rollup/plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 
-import pkg from './package.json'
+import pkg from './package.json';
 
 
 const moduleName = pkg.name.replace(/^@.*\//, '')
@@ -30,7 +30,7 @@ export default [
 	},
 
 	{
-		input: 'src/index.ts',
+		input: 'src/rollup/index.ts',
 		output: {
 			name: moduleName,
 			file: pkg.main,
@@ -45,5 +45,5 @@ export default [
 			pluginNodeResolve(),
 			(process.env.NODE_ENV === 'production')? terser() : null
 		],
-	}
+	},
 ];

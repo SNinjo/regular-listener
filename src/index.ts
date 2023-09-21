@@ -2,7 +2,7 @@ type hookOnTrigger = (value: unknown) => unknown | Promise<unknown>;
 type hookOnError = (error: unknown) => unknown | Promise<unknown>;
 type ReadTypeOfArray = 'array' | 'some' | 'every';
 
-export abstract class RegularListener {
+abstract class RegularListener {
 	protected delay = 1000;
 	protected intervalId = 0;
 	protected readTypeOfArray: ReadTypeOfArray = 'array';
