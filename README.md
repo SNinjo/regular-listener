@@ -114,7 +114,7 @@ npm install regular-listener
 #### class RegularListener
 | method	          		  	| Return Type | Description                   						|
 | ----------------------------- | ----------- | --------------------------------------------------- |
-| isTriggered(value: unknown)	| boolean     | Define whether the value triggers the condition.	|
+| isTriggered(<br>&emsp;value: unknown<br>)	| boolean     | Define whether the value triggers the condition.	|
 | isTriggered(<br>&emsp;element: unknown,<br>&emsp;index: number<br>)<br>isTriggered(<br>&emsp;element: unknown,<br>&emsp;index: number,<br>&emsp;value: Array\<unknown><br>) | boolean | Define whether the <index> element in the value, which is an array, triggers the condition. |
 
 #### Listener
