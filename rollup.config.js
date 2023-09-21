@@ -1,13 +1,13 @@
-import pluginDelete from "rollup-plugin-delete"
-import pluginTypescript from "@rollup/plugin-typescript"
-import pluginCommonjs from "@rollup/plugin-commonjs"
-import pluginNodeResolve from "@rollup/plugin-node-resolve"
-import { terser } from "rollup-plugin-terser"
+import pluginDelete from 'rollup-plugin-delete'
+import pluginTypescript from '@rollup/plugin-typescript'
+import pluginCommonjs from '@rollup/plugin-commonjs'
+import pluginNodeResolve from '@rollup/plugin-node-resolve'
+import { terser } from 'rollup-plugin-terser'
 
-import pkg from "./package.json"
+import pkg from './package.json'
 
 
-const moduleName = pkg.name.replace(/^@.*\//, "")
+const moduleName = pkg.name.replace(/^@.*\//, '')
 const banner = `
 /**
  * @license
@@ -19,30 +19,31 @@ const banner = `
 
 export default [
 	{
-		input: "src/fakeInput.ts",
+		input: 'src/fakeInput.ts',
 		plugins: [
 			pluginDelete({
 				targets: [
-					"build/*",
+					'build/*',
 				]
 			}),
 		]
 	},
 
 	{
-		input: "src/index.ts",
+		input: 'src/index.ts',
 		output: {
 			name: moduleName,
 			file: pkg.main,
-			format: "umd",
-			banner
+			format: 'umd',
+			sourcemap: true,
+			banner,
+			exports: 'named',
 		},
 		plugins: [
-			pluginDelete({ targets: "build/*" }),
 			pluginTypescript(),
 			pluginCommonjs(),
 			pluginNodeResolve(),
-			(process.env.NODE_ENV === "production")? terser() : null
+			(process.env.NODE_ENV === 'production')? terser() : null
 		],
 	}
 ];

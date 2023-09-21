@@ -20,8 +20,7 @@
 	],
 	"ignorePatterns": [
 		"build/**/*.js",
-		"build/**/*.ts",
-		"*.config.js"
+		"build/**/*.ts"
 	],
 	"rules": {
 		"indent": ["warn", "tab"],
@@ -37,6 +36,7 @@
 		"comma-spacing": "warn",
 		"keyword-spacing": "warn",
 		"prefer-const": "off",
+        "quotes": ["error", "single", {"allowTemplateLiterals": true}],
 		"space-before-blocks": "warn",
 		"rest-spread-spacing": "warn"
 	}
