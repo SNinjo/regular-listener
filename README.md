@@ -1,4 +1,4 @@
-# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.6-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
+# RegularListener &middot; [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/SNinjo/regular-listener/blob/master/LICENSE) [![NPM](https://img.shields.io/badge/npm-v1.0.7-blue)](https://www.npmjs.com/package/regular-listener) [![CI](https://img.shields.io/badge/CI-passing-brightgreen)](https://github.com/SNinjo/regular-listener/actions/workflows/ci.yml)
 RegularListener is a listener that detects the value periodically.
 
 This listener can periodically detects any event without having to handle complicated settings.
@@ -9,7 +9,7 @@ Of course, all listeners are successfully tested by Jest.
 ## Usage
 #### listen to boolean once
 ``` javascript
-import BooleanListener from 'regular-listener';
+import { BooleanListener } from 'regular-listener';
 
 let boolean = false;
 ...
@@ -21,7 +21,7 @@ listener.listenOnce(() => boolean);
 
 #### listen to boolean every 500ms
 ``` javascript
-import BooleanListener from 'regular-listener';
+import { BooleanListener } from 'regular-listener';
 
 let boolean = false;
 ...
@@ -34,7 +34,7 @@ listener.listen(() => boolean);
 
 #### listen to each element in the array and check that at least one element satisfies the condition
 ``` javascript
-import BooleanListener from 'regular-listener';
+import { BooleanListener } from 'regular-listener';
 
 let array = [true, true];
 ...
@@ -47,7 +47,7 @@ listener.listen(() => array);
 
 #### listen to each element in the array and check that every element satisfies the condition
 ``` javascript
-import BooleanListener from 'regular-listener';
+import { BooleanListener } from 'regular-listener';
 
 let array = [true, true];
 ...
@@ -60,7 +60,7 @@ listener.listen(() => array);
 
 #### handle error
 ``` javascript
-import BooleanListener from 'regular-listener';
+import { BooleanListener } from 'regular-listener';
 
 const listener = new BooleanListener(() => {
 	throw new Error('mock error');
@@ -70,7 +70,28 @@ listener.catch((error) => {
 })
 listener.listenOnce(() => {
 	throw new Error('mock error');
-});
+})
+```
+
+#### print message
+``` javascript
+import { BooleanListener } from 'regular-listener';
+
+let value = false;
+const listener = new BooleanListener(() => { throw new Error('mock error') });
+listener.printMessage();
+listener.catch(() => {});
+listener.listenOnce(() => value);
+setTimeout(() => {
+	value = true;
+}, 3000);
+```
+``` shell
+listen | isTriggered: false, value: false
+listen | isTriggered: false, value: false
+listen | isTriggered: false, value: false
+listen | isTriggered: true, value: true
+catch error | Error: mock error
 ```
 
 #### make new listener
