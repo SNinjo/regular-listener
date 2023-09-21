@@ -656,6 +656,7 @@ describe('test class ValueUpdatedListener', () => {
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(3);
 
+
 			value = [null, null, 0];
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(4);
@@ -667,6 +668,10 @@ describe('test class ValueUpdatedListener', () => {
 			value = [0, null, 0, null, 0];
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(6);
+
+			value = [0];
+			jest.advanceTimersByTime(1000);
+			expect(mockOnTrigger).toBeCalledTimes(7);
 		})
 		test(`='every'`, () => {
 			const mockOnTrigger = jest.fn();
@@ -695,6 +700,7 @@ describe('test class ValueUpdatedListener', () => {
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(1);
 
+
 			value = [null, null, 0];
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(2);
@@ -706,6 +712,10 @@ describe('test class ValueUpdatedListener', () => {
 			value = [0, null, 0, null, 0];
 			jest.advanceTimersByTime(1000);
 			expect(mockOnTrigger).toBeCalledTimes(4);
+
+			value = [0];
+			jest.advanceTimersByTime(1000);
+			expect(mockOnTrigger).toBeCalledTimes(5);
 		})
 		test(`catch errors when the value isn't array`, async () => {
 			let value: Array<unknown> = [null, null];
