@@ -119,7 +119,7 @@ export class ValueUpdatedListener extends RegularListener {
 
 
 			if (!(this.lastValue instanceof Array)) throw new Error(`The last value isn't an array, please set initial value to be an array or set readTypeOfArray to "array".`);
-			if (this.lastValue.length !== array.length) return false;
+			if (this.lastValue.length !== array.length) return true;
 
 			const isUpdated = this.lastValue[index] !== value;
 			this.lastValue[index] = value;
