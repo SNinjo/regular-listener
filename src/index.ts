@@ -3,12 +3,13 @@ type hookOnError = (error: unknown) => unknown | Promise<unknown>;
 type ReadTypeOfArray = 'array' | 'some' | 'every';
 
 abstract class RegularListener {
-	protected delay = 1000;
-	protected intervalId = 0;
-	protected readTypeOfArray: ReadTypeOfArray = 'array';
+	private delay = 1000;
+	private intervalId = 0;
+	private readTypeOfArray: ReadTypeOfArray = 'array';
+	private isMessagePrinted = false;
 
-	protected onTrigger: hookOnTrigger = () => {};
-	protected onError: null | hookOnError = null;
+	private onTrigger: hookOnTrigger = () => {};
+	private onError: null | hookOnError = null;
 
 
 	constructor()
@@ -19,11 +20,19 @@ abstract class RegularListener {
 		}
 	}
 
+
 	protected abstract isTriggered(value: unknown): boolean
 	protected abstract isTriggered(value: unknown, index: number): boolean
 	protected abstract isTriggered(value: unknown, index: number, array: Array<unknown>): boolean
+
+	private toString(value: unknown): string
+	private toString(value: Array<unknown>): string
+	private toString(value: unknown | Array<unknown>): string {
+		if (value instanceof Array) return `[${value.join(', ')}]`;
+		else return `${value}`;
+	}
  
-	protected async run(getValue: () => unknown, isOnce: boolean): Promise<void> {
+	private async run(getValue: () => unknown, isOnce: boolean): Promise<void> {
 		return new Promise((resolve, reject) => {
 			const run = async () => {
 				try {
@@ -46,6 +55,8 @@ abstract class RegularListener {
 						break;
 					}
 
+					// eslint-disable-next-line no-console
+					if (this.isMessagePrinted) console.log(`listen | isTriggered: ${isTriggered}, value: ${this.toString(value)}`);
 					if (isTriggered) {
 						if (isOnce) clearInterval(this.intervalId);
 						await this.onTrigger(value);
@@ -54,6 +65,8 @@ abstract class RegularListener {
 				} catch (error) {
 					clearInterval(this.intervalId);
 					if (this.onError) {
+						// eslint-disable-next-line no-console
+						if (this.isMessagePrinted) console.warn(`catch error | ${error}`);
 						await this.onError(error);
 						resolve();
 					} else {
@@ -65,6 +78,7 @@ abstract class RegularListener {
 			run();
 		})
 	}
+
 
 	async listenOnce(getValue: () => unknown): Promise<void> {
 		return this.run(getValue, true);
@@ -79,11 +93,19 @@ abstract class RegularListener {
 		this.onError = onError;
 	}
 
+
 	setDelay(delay: number): void {
 		this.delay = delay;
 	}
 	setReadTypeOfArray(readTypeOfArray: ReadTypeOfArray): void {
 		this.readTypeOfArray = readTypeOfArray;
+	}
+
+	printMessage(): void {
+		this.isMessagePrinted = true;
+	}
+	hideMessage(): void {
+		this.isMessagePrinted = false;
 	}
 }
 export default RegularListener;

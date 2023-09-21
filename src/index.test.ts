@@ -388,6 +388,76 @@ describe('test class RegularListener', () => {
 			})
 		})
 	})
+
+
+	describe('message process', () => {
+		let spyLogInfo: jest.SpyInstance<void, [message?: unknown, ...optionalParams: unknown[]], unknown>;
+		let spyLogWarn: jest.SpyInstance<void, [message?: unknown, ...optionalParams: unknown[]], unknown>;
+		beforeEach(() => {
+			spyLogInfo = (
+				jest
+					.spyOn(global.console, 'log')
+					.mockImplementation(() => {})
+			);
+			spyLogWarn = (
+				jest
+					.spyOn(global.console, 'warn')
+					.mockImplementation(() => {})
+			);
+		})
+		afterEach(() => {
+			spyLogInfo.mockRestore();
+			spyLogWarn.mockRestore();
+		})
+
+
+		describe('hide message', () => {
+			test('default', () => {
+				listener = new NullListener();
+
+				listener.listen(() => null);
+				expect(spyLogInfo).toBeCalledTimes(0);
+			})
+			test('set through function hideMessage', () => {
+				listener = new NullListener();
+				listener.hideMessage();
+				listener.catch(() => {});
+
+				listener.listen(() => { throw new Error('mock') });
+				expect(spyLogWarn).toBeCalledTimes(0);
+			})
+		})
+		describe('print message', () => {
+			test(`"listen" message`, () => {
+				let value: undefined | null | Array<number> = undefined;
+				listener = new NullListener();
+				listener.printMessage();
+
+				listener.listen(() => value);
+				expect(spyLogInfo).toBeCalledTimes(1);
+				expect(spyLogInfo).toHaveBeenCalledWith('listen | isTriggered: false, value: undefined');
+
+				value = null;
+				jest.advanceTimersByTime(1000);
+				expect(spyLogInfo).toBeCalledTimes(2);
+				expect(spyLogInfo).toHaveBeenCalledWith('listen | isTriggered: true, value: null');
+
+				value = [0, 1];
+				jest.advanceTimersByTime(1000);
+				expect(spyLogInfo).toBeCalledTimes(3);
+				expect(spyLogInfo).toHaveBeenCalledWith('listen | isTriggered: false, value: [0, 1]');
+			})
+			test(`"error" message`, () => {
+				listener = new NullListener();
+				listener.catch(() => {});
+				listener.printMessage();
+
+				listener.listen(() => { throw new Error('mock error') });
+				expect(spyLogWarn).toBeCalledTimes(1);
+				expect(spyLogWarn).toHaveBeenCalledWith(`catch error | ${new Error('mock error')}`);
+			})
+		})
+	})
 })
 
 
