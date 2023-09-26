@@ -11,8 +11,8 @@ test('import functions from regular-listener', () => {
 })
 
 test('require functions from regular-listener', () => {
-	const RegularListener = require('../../build/index.js');
-	const { BooleanListener, ValueExistedListener } = require('../../build/index.js');
+	const RegularListener = require('regular-listener');
+	const { BooleanListener, ValueExistedListener } = require('regular-listener');
 	expect(typeof RegularListener).toBe('function');
 	expect(typeof BooleanListener).toBe('function');
 	expect(typeof ValueExistedListener).toBe('function');
